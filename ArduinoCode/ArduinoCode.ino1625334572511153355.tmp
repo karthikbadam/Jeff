@@ -152,23 +152,39 @@
   void loop() 
   { 
    
-    if (Serial.available() > 0)
+    int totalBytes = 0;
+    totalBytes = Serial.available();
+    
+    if (totalBytes > 0)
     {
-      byte inChar = Serial.read();
-      int inVal = (int)inChar;
+      int i = 0; 
       
-      if (inVal == 1) {
-        state1 (myservo); 
-      }
+      state1 (myservo); 
       
-      if (inVal == 2) {
-        state2 (myservo); 
-      }
-      
-      if (inVal == 3) {
-        state3 (myservo, myservo2); 
-      }
-      
+      for (i = 0; i < totalBytes; i++) 
+      {
+        byte allchar[2];
+        
+        allchar[0] = Serial.read();
+        allchar[1] = Serial.read();
+        
+        char* state = new char[2];
+        
+        ByteToChar (allchar, state, 2);
+       
+        if (strcmp(state, "S1") == 0){
+          state1 (myservo); 
+        }
+        
+        if (strcmp(state, "S2") == 0){
+          state2 (myservo); 
+        }
+        
+        if (strcmp(state, "S3") == 0){
+          state3 (myservo, myservo2); 
+        }
+          
+      }   
     }
 
   } 
