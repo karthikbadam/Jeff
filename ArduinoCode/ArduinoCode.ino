@@ -87,7 +87,7 @@
   // left hand
   void state2 (Servo myservo) {
      
-    int startAngle = 100; 
+    int startAngle = 30; 
     int endAngle = 160;
     
     transition (myservo, startAngle, endAngle);
@@ -97,18 +97,26 @@
     
     transition (myservo, startAngle, endAngle);
     
+    delay (50); 
+    
     startAngle = 100; 
     endAngle = 160;
     
     transition (myservo, startAngle, endAngle);
+    
+    delay (50); 
     
     startAngle = 160; 
     endAngle = 100;
     
     transition (myservo, startAngle, endAngle);
     
+    delay (50); 
+    
     startAngle = 100; 
     endAngle = 160;
+    
+    delay (50); 
     
     transition (myservo, startAngle, endAngle);
     
@@ -123,17 +131,33 @@
   void state3 (Servo myservo, Servo myservo2) {
     
     int startAngle = 30; 
-    int endAngle = 150;
+    int endAngle = 130;
     
     transitionBoth (myservo, myservo2, startAngle, endAngle);
     
-    startAngle = 150; 
-    endAngle = 0;
+    startAngle = 130; 
+    endAngle = 30;
     
     transitionBoth (myservo, myservo2, startAngle, endAngle);
     
   }
   
+  // both hands
+  void state4 (Servo myservo, Servo myservo2) {
+    
+    int startAngle = 30; 
+    int endAngle = 170;
+    
+    transitionBoth (myservo, myservo2, startAngle, endAngle);
+    
+    delay (500);
+    
+    startAngle = 170; 
+    endAngle = 30;
+    
+    transitionBoth (myservo, myservo2, startAngle, endAngle);
+    
+  }
   
   void ByteToChar(byte* bytes, char* chars, unsigned int count){
     for(unsigned int i = 0; i < count; i++)
@@ -167,6 +191,11 @@
       
       if (inVal == 3) {
         state3 (myservo, myservo2); 
+      }
+      
+      if (inVal == 4) {
+      
+        state4 (myservo, myservo2); 
       }
       
     }

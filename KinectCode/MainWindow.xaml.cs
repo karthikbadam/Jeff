@@ -140,7 +140,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
 
         private int previousBodyCount = 0;
 
-        private float prevZ = 0f; 
+        private float prevZ = 0f;
 
         /// <summary>
         /// The DateTime object that tracks the last write time to the serial port.
@@ -263,7 +263,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             // serial port. In other words, if the Arduino writes data on the serial port, this method
             // will get called (this is useful for debugging--so you can see the 'Serial.print' results from
             // Arduino on the Output window in the Visual Studio debugger).
-            arduinoSerialPort.DataReceived += new SerialDataReceivedEventHandler(OnArduinoSerialPortDataReceived);        
+            arduinoSerialPort.DataReceived += new SerialDataReceivedEventHandler(OnArduinoSerialPortDataReceived);
         }
 
         /// <summary>
@@ -387,7 +387,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
 
                     int penIndex = 0;
 
-                    currentBodyCount = 0; 
+                    currentBodyCount = 0;
 
                     foreach (Body body in this.bodies)
                     {
@@ -395,7 +395,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
 
                         if (body.IsTracked)
                         {
-                            currentBodyCount++; 
+                            currentBodyCount++;
 
                             this.DrawClippedEdges(body, dc);
 
@@ -437,7 +437,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                                 float z = rightHand.Position.Z;
 
                                 //Console.WriteLine("handJoint.Position: ({0}, {1}, {2})",
-                                  //   x, y, z);
+                                //   x, y, z);
 
                                 if (DateTime.Now - serialPortLastWriteTime2 > serialPortMaxWriteInterval2)
                                 {
@@ -446,26 +446,46 @@ namespace Microsoft.Samples.Kinect.BodyBasics
 
                                     if (y * 9 > 4)
                                     {
-                                        byte message = (byte)2;
+                                        if (body.HandRightState == HandState.Open)
+                                        {
+                                            byte message = (byte)2;
 
-                                        byte[] byteArray = new byte[1];
-                                        byteArray[0] = message;
+                                            byte[] byteArray = new byte[1];
+                                            byteArray[0] = message;
 
-                                        arduinoSerialPort.Write(byteArray, 0, 1);
+                                            arduinoSerialPort.Write(byteArray, 0, 1);
 
-                                        Trace.WriteLine(String.Format("Sent to Arduino: S2 {0}", handPosY));
+                                            Trace.WriteLine(String.Format("Sent to Arduino: S2 {0}", handPosY));
 
-                                        // Timestamp for last write time
-                                        serialPortLastWriteTime2 = DateTime.Now;
+                                            // Timestamp for last write time
+                                            serialPortLastWriteTime2 = DateTime.Now;
+
+                                        }
+                                        else if (body.HandRightState == HandState.Closed)
+                                        {
+
+                                            byte message = (byte)4;
+
+                                            byte[] byteArray = new byte[1];
+                                            byteArray[0] = message;
+
+                                            arduinoSerialPort.Write(byteArray, 0, 1);
+
+                                            Trace.WriteLine(String.Format("Sent to Arduino: S2 {0}", handPosY));
+
+                                            // Timestamp for last write time
+                                            serialPortLastWriteTime2 = DateTime.Now;
+
+                                        }
 
                                     }
-                                }
 
+                                }
                             }
 
                             Joint head = body.Joints[JointType.Head];
 
-                            TrackingState headState = rightHand.TrackingState;
+                            TrackingState headState = head.TrackingState;
 
                             if (headState == TrackingState.Tracked)
                             {
@@ -479,14 +499,14 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                                 if (DateTime.Now - serialPortLastWriteTime3 > serialPortMaxWriteInterval3)
                                 {
 
-                                    if ((z - prevZ)*255 < -10)
+                                    if ((z - prevZ) * 255 < -10)
                                     {
 
                                         byte message = (byte)3;
-                                        
+
                                         byte[] byteArray = new byte[1];
                                         byteArray[0] = message;
-                                        
+
                                         arduinoSerialPort.Write(byteArray, 0, 1);
 
                                         Trace.WriteLine(String.Format("Sent to Arduino: S3 {0}", z));
@@ -496,11 +516,11 @@ namespace Microsoft.Samples.Kinect.BodyBasics
 
                                     }
 
-                                    prevZ = z; 
+                                    prevZ = z;
                                 }
 
                             }
-                            
+
                             //if (trackingState == TrackingState.Tracked)
                             //{
                             //    ColorSpacePoint colorPoint = this.kinectSensor.CoordinateMapper.MapCameraPointToColorSpace(head.Position);
@@ -532,7 +552,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
 
                             //    }
                             //}
-                           
+
                         }
                     }
 
@@ -540,7 +560,7 @@ namespace Microsoft.Samples.Kinect.BodyBasics
 
                     if (currentBodyCount != previousBodyCount)
                     {
-                        
+
                         // if body count suddenly increased
                         Console.WriteLine("Body Count has changed to: {0}", currentBodyCount);
 
