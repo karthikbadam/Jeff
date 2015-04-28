@@ -5,7 +5,7 @@ This is the code to create Marvin using a Kinect v2, Arduino, Adafruit motor shi
 ## Video
 <a href="http://www.youtube.com/watch?feature=player_embedded&v=yGhQL5ykPs8
 " target="_blank"><img src="https://github.com/karthikbadam/Marvin/blob/master/marvin_pic1.jpg" 
-alt="Marvin Demo" width="480" height="360" border="10" /></a>
+alt="Marvin Demo" border="10" /></a>
 
 ## Parts
 <img style="float: left; width: 500px;" src="https://github.com/karthikbadam/Marvin/blob/master/Marvin-parts.png">
