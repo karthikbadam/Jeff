@@ -6,7 +6,9 @@ This is the code to create Marvin using a Kinect v2, Arduino, Adafruit motor shi
 
 <img style="float: left; width: 500px;" src="https://github.com/karthikbadam/Marvin/blob/master/Marvin-parts.png">
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/yGhQL5ykPs8" frameborder="0" allowfullscreen></iframe>
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=yGhQL5ykPs8
+" target="_blank"><img src="http://img.youtube.com/vi/yGhQL5ykPs8/0.jpg" 
+alt="Marvin Demo" width="480" height="360" border="10" /></a>
 
 To run the code, just open the Arduino code in the Arduino IDE, and Kinect code in Visual studio (2013 or higher).
 
